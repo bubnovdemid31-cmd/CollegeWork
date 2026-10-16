@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+    <xsl:output method="html" encoding="UTF-8" indent="yes"/>
+
+    <xsl:key name="teacher" match="course" use="teacher"/>
+    <xsl:key name="topic" match="course" use="topics/topic"/>
+
+    <xsl:template match="/">
+        <html>
+            <body>
+                <h1>Наши курсы</h1>
+
+                <h3>Курсы, которые читает Борисов И.О.</h3>
+                <ul>
+                    <xsl:for-each select="key('teacher', 'Борисов И.О.')">
+                        <li>
+                            <xsl:value-of select="title"/>
+                        </li>
+                    </xsl:for-each>
+                </ul>
+
+                <h3>Курсы, в которых рассматривается XML</h3>
+                <ul>
+                    <xsl:for-each select="key('topic', 'XML')">
+                        <li>
+                            <xsl:value-of select="title"/>
+                        </li>
+                    </xsl:for-each>
+                </ul>
+
+                <h3>Курсы Борисова И.О. с темой XSLT</h3>
+                <ul>
+                    <xsl:for-each select="key('teacher', 'Борисов И.О.')[topics/topic = 'XSLT']">
+                        <li>
+                            <xsl:value-of select="title"/>
+                        </li>
+                    </xsl:for-each>
+                </ul>
+            </body>
+        </html>
+    </xsl:template>
+
+</xsl:stylesheet>
